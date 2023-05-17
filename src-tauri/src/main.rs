@@ -5,8 +5,12 @@ use std::{fs};
 use std::fs::File;
 use std::io::{BufReader};
 use rodio::{Decoder, OutputStream, Sink};
+use std::sync::Mutex;
+use tauri::State;
 
-
+struct Moostate{
+    sink: Mutex<Sink>
+}
 
 #[tauri::command]
 fn get_files(dir: String) -> Vec<String> {
@@ -20,24 +24,39 @@ fn get_files(dir: String) -> Vec<String> {
     return arr;
 }
 
-#[tauri::command]
-async fn play_music(dir: String){
-    // Create audio io
-    let (_stream, stream_handle) = OutputStream::try_default().unwrap();
-    let sink = Sink::try_new(&stream_handle).unwrap();
+#[tauri::command(async)]
+fn start_music(dir: String, moos: State<Moostate>){
+    let sink = moos.sink.lock().unwrap();
 
     // Find audio file
     let file = BufReader::new(File::open(dir).unwrap());
     let source = Decoder::new(file).unwrap();
 
-    // Play until end
+    // Play song
+    sink.clear();
     sink.append(source);
-    sink.sleep_until_end();
+    sink.play();
+}
+
+#[tauri::command(async)]
+fn play_music(moos: State<Moostate>){
+    let sink = moos.sink.lock().unwrap();
+    sink.play();
+}
+
+#[tauri::command(async)]
+fn pause_music(moos: State<Moostate>){
+    let sink = moos.sink.lock().unwrap();
+    sink.pause();
 }
 
 fn main() {
+    let (_stream, stream_handle) = OutputStream::try_default().unwrap();
+    let sink = Sink::try_new(&stream_handle).unwrap();
+
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![get_files, play_music])
+        .manage(Moostate{sink: sink.into()})
+        .invoke_handler(tauri::generate_handler![get_files, start_music, play_music, pause_music])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

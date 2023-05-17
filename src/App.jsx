@@ -11,20 +11,21 @@ function App() {
   }
 
   async function play_music(dir) {
-    invoke('play_music', { dir: dir });
+    invoke('start_music', { dir: dir });
   }
-
 
   useEffect(() => {
     get_files();
     play_music("src/uwu.mp3");
-    console.log("wtf");
   }, [])
 
   return (
     <div className="container">
       <h1>Welcome to Moosic!</h1>
-      {dir.map(e => <div key={e}>{e}</div>)}
+      {dir.map(e =>
+        <div key={e}>
+          {e}
+        </div>)}
 
     </div>
   );
