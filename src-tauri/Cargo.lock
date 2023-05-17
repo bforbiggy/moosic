@@ -1684,6 +1684,7 @@ dependencies = [
  "rodio",
  "serde",
  "serde_json",
+ "sink",
  "tauri",
  "tauri-build",
  "tokio",
@@ -2637,6 +2638,12 @@ name = "simd-adler32"
 version = "0.3.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "238abfbb77c1915110ad968465608b68e869e0772622c9656714e73e5a1a522f"
+
+[[package]]
+name = "sink"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4c52acf3003c3803081fb94f56cd161c3d1fea222029ac83388187aad41c797d"
 
 [[package]]
 name = "siphasher"

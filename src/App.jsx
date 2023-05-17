@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/tauri";
 import "./App.css";
 
@@ -14,11 +14,12 @@ function App() {
     invoke('play_music', { dir: dir });
   }
 
-  useEffect(() => {
 
+  useEffect(() => {
+    get_files();
+    play_music("src/uwu.mp3");
+    console.log("wtf");
   }, [])
-  get_files();
-  play_music("src/uwu.mp3");
 
   return (
     <div className="container">

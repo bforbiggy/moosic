@@ -18,6 +18,7 @@ serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 rodio = "0.17.1"
 tokio = "1.28.1"
+sink = "0.1.0"
 
 [features]
 # this feature is used for production builds or when `devPath` points to the filesystem
