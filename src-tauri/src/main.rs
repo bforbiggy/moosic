@@ -33,9 +33,8 @@ fn start_music(dir: String, moos: State<Moostate>){
     let source = Decoder::new(file).unwrap();
 
     // Play song
-    sink.clear();
+    sink.stop();
     sink.append(source);
-    sink.play();
 }
 
 #[tauri::command(async)]
