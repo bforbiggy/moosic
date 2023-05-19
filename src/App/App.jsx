@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./App.scss";
 import { getFiles, pauseMusic, playMusic, startMusic } from "../lib/Music"
-import { isAudio } from "../lib/Util";
+import { isAudio, openFolder } from "../lib/Util";
 import {
   AiOutlinePlayCircle, AiOutlinePauseCircle, AiFillFolderOpen
 } from "react-icons/ai"
@@ -24,7 +24,7 @@ function App() {
     <div className="container">
       <div className="header">
         <h1>Welcome to Moosic!</h1>
-        <AiFillFolderOpen />
+        <AiFillFolderOpen onClick={openFolder} />
       </div>
 
       {dir.filter(e => isAudio(e)).map(e =>
