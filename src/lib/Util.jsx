@@ -1,5 +1,5 @@
 import { open } from '@tauri-apps/api/dialog';
-import { appDir } from '@tauri-apps/api/path';
+import { appConfigDir } from '@tauri-apps/api/path';
 
 const formats = ['.ogg', '.mp3', '.wav'];
 function isAudio(fileName) {
@@ -14,10 +14,10 @@ async function openFolder() {
 	// Open a selection dialog for directories
 	const selected = await open({
 		directory: true,
-		defaultPath: await appDir(),
+		defaultPath: await appConfigDir(),
 	});
 
-	return selected[0];
+	return selected;
 }
 
 export { isAudio, openFolder }

@@ -1,7 +1,7 @@
 import { invoke } from "@tauri-apps/api/tauri";
 
-function getFiles(callback) {
-	return invoke('get_files', { dir: "./" }).then(res => callback(res))
+function getFiles(dir) {
+	return invoke('get_files', { dir: dir })
 }
 
 function startMusic(dir) {
