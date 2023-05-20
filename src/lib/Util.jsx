@@ -1,23 +1,29 @@
 import { open } from '@tauri-apps/api/dialog';
-import { appConfigDir } from '@tauri-apps/api/path';
+import { invoke } from "@tauri-apps/api/tauri";
+import { appDataDir } from '@tauri-apps/api/path';
 
 const formats = ['.ogg', '.mp3', '.wav'];
 function isAudio(fileName) {
-	for (let format of formats) {
+	for (let format of formats)
 		if (fileName.endsWith(format))
 			return true;
-	}
 	return false;
+}
+
+function getMusicFiles(dir) {
+	return invoke('get_files', { dir: dir }).then(
+		res => res.filter(e => isAudio(e))
+	)
 }
 
 async function openFolder() {
 	// Open a selection dialog for directories
 	const selected = await open({
 		directory: true,
-		defaultPath: await appConfigDir(),
+		defaultPath: await appDataDir(),
 	});
 
 	return selected;
 }
 
-export { isAudio, openFolder }
+export { openFolder, getMusicFiles }

@@ -1,59 +1,56 @@
-import { useEffect, useState } from "react";
+import { createContext, useState, useMemo } from "react";
 import "./App.scss";
-import { getFiles, pauseMusic, playMusic, startMusic } from "../lib/Music"
-import { isAudio, openFolder } from "../lib/Util";
-import {
-  AiOutlinePlayCircle, AiOutlinePauseCircle, AiOutlineFolderAdd
-} from "react-icons/ai"
+import { getMusicFiles, openFolder } from "../lib/Util";
+import { AiOutlineFolderAdd } from "react-icons/ai"
+import Playbar from "./components/Playbar";
+import MusicList from "./components/MusicList"
+import Directories from "./components/Directories";
 
+const MusicContext = createContext();
 
 function App() {
-  const [dirs, setDirs] = useState([]);
-  const [playing, setPlaying] = useState(false);
-
-  const togglePlay = () => {
-    playing ? pauseMusic() : playMusic();
-    setPlaying(!playing);
-  };
+  const [musicContext, setMusicContext] = useState({
+    loaded: {},
+    playing: false,
+  });
+  const contextMemo = useMemo(() => [musicContext, setMusicContext], [musicContext, setMusicContext]);
 
   const addFolderHandler = () => {
-    openFolder().then(res => {
-      if (dirs.includes(res))
+    openFolder().then(folder => {
+      // Ignore already opended directories
+      if (Object.keys(musicContext.loaded).includes(folder))
         return;
 
-      setDirs([...dirs, res])
+      // Load folder and all songs within
+      getMusicFiles(folder).then(songs =>
+        setMusicContext({
+          ...musicContext,
+          loaded: {
+            ...musicContext.loaded,
+            [folder]: songs
+          }
+        })
+      );
     });
   };
 
+
   return (
     <div className="container">
-      <div className="header">
-        <h1>Welcome to Moosic!</h1>
-        <AiOutlineFolderAdd
-          onClick={addFolderHandler} />
-      </div>
+      <MusicContext.Provider value={contextMemo}>
+        <div className="header">
+          <h1>Welcome to Moosic!</h1>
+          <AiOutlineFolderAdd onClick={addFolderHandler} />
+        </div>
 
-
-      <div className="dir">
-        {
-          dirs.map(d => <div key={d}>
-            {d}
-          </div>)
-        }
-      </div>
-
-      {/* {dir.map(e =>
-        <div key={e} data={e} onClick={(event) => { startMusic(event.target.getAttribute('data')); setPlaying(true) }}>
-          {e}
-        </div>)} */}
-
-      <div className="playbar">
-        {playing ? <AiOutlinePauseCircle onClick={togglePlay} /> : <AiOutlinePlayCircle onClick={togglePlay} />}
-
-      </div>
-
+        <Directories />
+        <MusicList />
+        <Playbar />
+      </MusicContext.Provider>
     </div>
+
   );
 }
 
 export default App;
+export { MusicContext }
