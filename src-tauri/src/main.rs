@@ -35,6 +35,7 @@ fn start_music(dir: String, moos: State<Moostate>){
     // Play song
     sink.stop();
     sink.append(source);
+    sink.play();
 }
 
 #[tauri::command(async)]

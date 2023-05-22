@@ -17,19 +17,22 @@ function App() {
 
   const addFolderHandler = () => {
     openFolder().then(folder => {
-      // Ignore already opended directories
-      if (Object.keys(musicContext.loaded).includes(folder))
+      // Ignore invalid/already opended directories
+      if (!folder || Object.keys(musicContext.loaded).includes(folder))
         return;
 
       // Load folder and all songs within
-      getMusicFiles(folder).then(songs =>
+      getMusicFiles(folder).then(songs => {
+        console.log(songs);
         setMusicContext({
           ...musicContext,
           loaded: {
             ...musicContext.loaded,
-            [folder]: songs
+            [folder]: songs ?? []
           }
         })
+      }
+
       );
     });
   };
