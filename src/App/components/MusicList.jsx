@@ -1,22 +1,22 @@
 import "./MusicList.scss";
 import { useContext } from "react";
-import { MusicContext } from "../App";
+import { Moosic } from "../App";
 import { startMusic } from "../../lib/Music"
 
 
 const MusicList = () => {
-	const [musicContext, setMusicContext] = useContext(MusicContext);
+	const [moosic, setMoosic] = useContext(Moosic);
 
 	const songs = [];
-	for (let key in musicContext.loaded) {
-		const dirSongs = musicContext.loaded[key];
+	for (let key in moosic.loaded) {
+		const dirSongs = moosic.loaded[key];
 		songs.push(...dirSongs)
 	}
 
 	const songClickHandler = (event) => {
 		startMusic(event.target.getAttribute('data'));
-		setMusicContext({
-			...musicContext,
+		setMoosic({
+			...moosic,
 			playing: true
 		})
 	};

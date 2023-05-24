@@ -1,59 +1,33 @@
 import { createContext, useState, useMemo } from "react";
 import "./App.scss";
-import { getMusicFiles, openFolder } from "../lib/Util";
-import { AiOutlineFolderAdd } from "react-icons/ai"
+import Menu from "../core/Menu/Menu";
 import Playbar from "./components/Playbar";
 import MusicList from "./components/MusicList"
-import Directories from "./components/Directories";
 
-const MusicContext = createContext();
+const Moosic = createContext();
 
 function App() {
-  const [musicContext, setMusicContext] = useState({
+  const [moosic, setMoosic] = useState({
     loaded: {},
     playing: false,
+    menu: false,
   });
-  const contextMemo = useMemo(() => [musicContext, setMusicContext], [musicContext, setMusicContext]);
-
-  const addFolderHandler = () => {
-    openFolder().then(folder => {
-      // Ignore invalid/already opended directories
-      if (!folder || Object.keys(musicContext.loaded).includes(folder))
-        return;
-
-      // Load folder and all songs within
-      getMusicFiles(folder).then(songs => {
-        console.log(songs);
-        setMusicContext({
-          ...musicContext,
-          loaded: {
-            ...musicContext.loaded,
-            [folder]: songs ?? []
-          }
-        })
-      }
-
-      );
-    });
-  };
-
+  const contextMemo = useMemo(() => [moosic, setMoosic], [moosic, setMoosic]);
 
   return (
     <div className="container">
-      <MusicContext.Provider value={contextMemo}>
+      <Moosic.Provider value={contextMemo}>
+        <Menu />
         <div className="header">
           <h1>Welcome to Moosic!</h1>
-          <AiOutlineFolderAdd onClick={addFolderHandler} />
         </div>
-
-        <Directories />
         <MusicList />
         <Playbar />
-      </MusicContext.Provider>
+      </Moosic.Provider>
     </div>
 
   );
 }
 
 export default App;
-export { MusicContext }
+export { Moosic }
