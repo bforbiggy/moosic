@@ -16,6 +16,13 @@ function getMusicFiles(dir) {
 	)
 }
 
+function extractFileName(path) {
+	const file = path.split('\\').pop();
+	console.log(file);
+	const [name, ext] = file.split('.');
+	return name;
+}
+
 async function openFolder() {
 	// Open a selection dialog for directories
 	const selected = await open({
@@ -26,4 +33,4 @@ async function openFolder() {
 	return selected;
 }
 
-export { openFolder, getMusicFiles }
+export { openFolder, getMusicFiles, extractFileName }

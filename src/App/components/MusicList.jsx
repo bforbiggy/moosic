@@ -2,6 +2,7 @@ import "./MusicList.scss";
 import { useContext } from "react";
 import { Moosic } from "../App";
 import { startMusic } from "../../lib/Music"
+import { extractFileName } from "../../lib/Util";
 
 
 const MusicList = () => {
@@ -10,7 +11,7 @@ const MusicList = () => {
 	const songs = [];
 	for (let key in moosic.loaded) {
 		const dirSongs = moosic.loaded[key];
-		songs.push(...dirSongs)
+		songs.push(...dirSongs.map(s => extractFileName(s)))
 	}
 
 	const songClickHandler = (event) => {
