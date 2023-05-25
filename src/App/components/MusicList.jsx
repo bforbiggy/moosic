@@ -11,7 +11,7 @@ const MusicList = () => {
 	const songs = [];
 	for (let key in moosic.loaded) {
 		const dirSongs = moosic.loaded[key];
-		songs.push(...dirSongs.map(s => extractFileName(s)))
+		songs.push(...dirSongs)
 	}
 
 	const songClickHandler = (event) => {
@@ -23,7 +23,7 @@ const MusicList = () => {
 	};
 
 	return <div className="music">
-		{songs.map(song => <div key={song} data={song} onClick={songClickHandler}> {song}</div>)}
+		{songs.map(song => <div key={song} data={song} onClick={songClickHandler}> {extractFileName(song)}</div>)}
 	</div>
 }
 

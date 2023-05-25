@@ -12,7 +12,6 @@ const Menu = () => {
 			...moosic,
 			menu: !moosic.menu
 		})
-		console.log('toggling menu to', !moosic.menu);
 	}
 
 

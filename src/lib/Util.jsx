@@ -18,7 +18,6 @@ function getMusicFiles(dir) {
 
 function extractFileName(path) {
 	const file = path.split('\\').pop();
-	console.log(file);
 	const [name, ext] = file.split('.');
 	return name;
 }
