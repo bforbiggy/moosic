@@ -8,16 +8,14 @@ const Menu = ({ menu, setMenu }) => {
 	}
 
 	return <div className="menuContainer">
-		{menu ?
-			<div className="menu">
-				<BiX className="menuClose" onClick={toggleMenu} />
-				<Directories />
-			</div>
-			:
-			<div className="buttonbar">
-				<BiMenuAltLeft onClick={toggleMenu} />
-			</div>
-		}
+		<div className={`menu ${menu ? 'open' : 'close'}`}>
+			<BiX className="closer" onClick={toggleMenu} />
+			<Directories />
+		</div>
+
+		<div className="buttonbar" style={{ display: menu ? 'none' : 'block' }}>
+			<BiMenuAltLeft onClick={toggleMenu} />
+		</div>
 	</div >
 }
 

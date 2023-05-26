@@ -5,7 +5,7 @@ import { startMusic } from "../../lib/Music"
 import { extractFileName } from "../../lib/Util";
 
 
-const MusicList = () => {
+const MusicList = ({ setPlaying }) => {
 	const [moosic, setMoosic] = useContext(Moosic);
 
 	const songs = [];
@@ -16,10 +16,7 @@ const MusicList = () => {
 
 	const songClickHandler = (event) => {
 		startMusic(event.target.getAttribute('data'));
-		setMoosic({
-			...moosic,
-			playing: true
-		})
+		setPlaying(true);
 	};
 
 	return <div className="music">
