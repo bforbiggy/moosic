@@ -1,6 +1,7 @@
 import { open } from '@tauri-apps/api/dialog';
 import { invoke } from "@tauri-apps/api/tauri";
-import { appDataDir } from '@tauri-apps/api/path';
+import { appDataDir, appConfigDir } from '@tauri-apps/api/path';
+import { readTextFile, writeTextFile } from '@tauri-apps/api/fs';
 
 const formats = ['.ogg', '.mp3', '.wav'];
 function isAudio(fileName) {
@@ -32,4 +33,21 @@ async function openFolder() {
 	return selected;
 }
 
-export { openFolder, getMusicFiles, extractFileName }
+async function loadConfig() {
+	try {
+		const path = `${await appConfigDir()}config.json`;
+		const file = await readTextFile(path);
+		return JSON.parse(file);
+	}
+	catch (e) {
+		console.info('Config file was not found.');
+		return {};
+	}
+}
+
+async function saveConfig(config) {
+	const path = `${await appConfigDir()}config.json`;
+	await writeTextFile(path, JSON.stringify(config));
+}
+
+export { openFolder, getMusicFiles, extractFileName, loadConfig, saveConfig }

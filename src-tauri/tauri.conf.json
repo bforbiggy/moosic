@@ -12,6 +12,13 @@
   },
   "tauri": {
     "allowlist": {
+      "fs": {
+        "all": true,
+        "scope": [
+          "$APPCONFIG",
+          "$APPCONFIG/*"
+        ]
+      },
       "dialog": {
         "message": true,
         "open": true,
@@ -34,7 +41,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "com.tauri.dev",
+      "identifier": "moosic",
       "targets": "all"
     },
     "security": {

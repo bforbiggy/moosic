@@ -1,22 +1,14 @@
 import "./Menu.scss";
-import { Moosic } from "../../App/App";
-import { useContext } from "react";
 import { BiMenuAltLeft, BiX } from "react-icons/bi"
 import Directories from "./directories/Directories";
 
-const Menu = () => {
-	const [moosic, setMoosic] = useContext(Moosic);
-
+const Menu = ({ menu, setMenu }) => {
 	const toggleMenu = () => {
-		setMoosic({
-			...moosic,
-			menu: !moosic.menu
-		})
+		setMenu(!menu);
 	}
 
-
 	return <div className="menuContainer">
-		{moosic.menu ?
+		{menu ?
 			<div className="menu">
 				<BiX className="menuClose" onClick={toggleMenu} />
 				<Directories />
