@@ -6,7 +6,7 @@ import { extractFileName } from "../../lib/Util";
 
 
 const MusicList = ({ setPlaying }) => {
-	const [moosic, setMoosic] = useContext(Moosic);
+	const [moosic] = useContext(Moosic);
 
 	const songs = [];
 	for (let key in moosic.loaded) {

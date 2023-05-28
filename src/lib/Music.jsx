@@ -12,4 +12,8 @@ function pauseMusic() {
 	return invoke('pause_music');
 }
 
-export { startMusic, playMusic, pauseMusic }
+function hasMusic() {
+	return invoke('has_music');
+}
+
+export { startMusic, playMusic, pauseMusic, hasMusic }

@@ -1,7 +1,7 @@
 import { createContext, useState, useMemo, useEffect } from "react";
 import "./App.scss";
 import Menu from "../core/Menu/Menu";
-import Playbar from "./components/Playbar";
+import Playbar from "../core/Playbar/Playbar";
 import MusicList from "./components/MusicList"
 import { loadConfig, saveConfig } from "../lib/Util";
 
@@ -16,6 +16,7 @@ function App() {
   const [loadedConfig, setLoadedConfig] = useState(false);
 
   const contextMemo = useMemo(() => {
+    window.moosic = moosic;
     if (loadedConfig)
       saveConfig(moosic);
     return [moosic, setMoosic]
@@ -31,13 +32,16 @@ function App() {
   }, [])
 
   return (
-    <div className="container">
+    <>
       <Moosic.Provider value={contextMemo}>
         <Menu menu={menu} setMenu={setMenu} />
-        <MusicList setPlaying={setPlaying} />
-        <Playbar playing={playing} setPlaying={setPlaying} />
+        <div className="container">
+
+          <MusicList setPlaying={setPlaying} />
+          <Playbar playing={playing} setPlaying={setPlaying} />
+        </div>
       </Moosic.Provider>
-    </div>
+    </>
 
   );
 }

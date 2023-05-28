@@ -1,10 +1,13 @@
 import "./Playbar.scss";
 import { AiOutlinePlayCircle, AiOutlinePauseCircle } from "react-icons/ai"
-import { pauseMusic, playMusic } from "../../lib/Music"
+import { pauseMusic, playMusic, hasMusic } from "../../lib/Music"
 
 
 function Playbar({ playing, setPlaying }) {
-	const togglePlay = () => {
+	const togglePlay = async () => {
+		if (!await hasMusic())
+			return;
+
 		playing ? pauseMusic() : playMusic();
 		setPlaying(!playing)
 	};

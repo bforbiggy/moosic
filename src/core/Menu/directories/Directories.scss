@@ -4,4 +4,20 @@
 	.header {
 		display: flex;
 	}
+
+	.dir {
+		display: flex;
+		width: 100%;
+		justify-content: space-between;
+		gap: 15px;
+
+		svg {
+			width: 1em;
+			height: auto;
+		}
+
+		p {
+			margin: 0;
+		}
+	}
 }

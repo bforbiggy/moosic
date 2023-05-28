@@ -1,0 +1,12 @@
+@use "../../Theme.scss" as theme;
+
+.playbar {
+	width: 100vw;
+	position: fixed;
+	bottom: 0px;
+	z-index: 600;
+
+	display: flex;
+	justify-content: center;
+	background-color: theme.$thatch;
+}

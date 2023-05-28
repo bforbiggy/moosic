@@ -25,6 +25,12 @@ fn get_files(dir: String) -> Vec<String> {
 }
 
 #[tauri::command(async)]
+fn has_music(moos: State<Moostate>) -> bool{
+    let sink = moos.sink.lock().unwrap();
+    return !sink.empty();
+}
+
+#[tauri::command(async)]
 fn start_music(dir: String, moos: State<Moostate>){
     let sink = moos.sink.lock().unwrap();
 
@@ -56,7 +62,7 @@ fn main() {
 
     tauri::Builder::default()
         .manage(Moostate{sink: sink.into()})
-        .invoke_handler(tauri::generate_handler![get_files, start_music, play_music, pause_music])
+        .invoke_handler(tauri::generate_handler![get_files, start_music, play_music, pause_music, has_music])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
